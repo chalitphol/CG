@@ -2,8 +2,11 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h> 
-static GLfloat dx1 = 0.0, dy1 = 0.0;
-static GLfloat dx2 = 0.0, dy2 = 0.0;
+static GLfloat dx1 = 425.0, dy1 = 0.0;
+static GLfloat dx2 = 425.0, dy2 = 0.0;
+static GLfloat dx3 = 425.0, dy3 = 0.0;
+static float flowerM = true;
+static float flowerMS = 0;
 
 #define PI 3.14159265
 #define Convert PI/180
@@ -17,67 +20,67 @@ void init(void)
 
 void circle(float r, float x, float y, float quadrant) {
 	glBegin(GL_POLYGON);
-	for (float i = 0; i <= quadrant; i += 0.01) {
-		glVertex2f(x+r*cos(i*Convert), y+r*sin(i*Convert));
+	for (float i = 0; i <= quadrant; i += 0.1) {
+		glVertex2f(x + r * cos(i*3.14159265/180), y + r * sin(i*3.14159265/180));
 	}
 	glEnd();
 }
 
-void ellipse(float r1, float r2, float x, float y,float theta) {
+void ellipse(float r1, float r2, float x, float y, float theta) {
 	glBegin(GL_POLYGON);
-	for (float i = 0; i <= 360; i += 0.01) {
-		glVertex2f(x +(r1 * cos(i*Convert)*cos(theta*Convert) - r2 * sin(i*Convert)*sin(theta*Convert)), y + (r2 * sin(i*Convert)*cos(theta*Convert) + r1 * cos(i*Convert)*sin(theta*Convert)));
+	for (float i = 0; i <= 360; i += 1) {
+		glVertex2f(x + (r1 * cos(i*3.14159265 / 180)*cos(theta*3.14159265 / 180) - r2 * sin(i*3.14159265 / 180)*sin(theta*3.14159265 / 180)), y + (r2 * sin(i*3.14159265 / 180)*cos(theta*3.14159265 / 180) + r1 * cos(i*3.14159265 / 180)*sin(theta*3.14159265 / 180)));
 	}
 	glEnd();
 }
 
 
-void flower(float r1,float r2, float x, float y, float height , float num , float rotate) {
-	
+void flower(float r1, float r2, float x, float y, float height, float num, float rotate) {
+
 	glLineWidth(4.0);
 	glBegin(GL_LINES);
 	glVertex2f(x, y);
 	glVertex2f(x, y - height);
 	glEnd();
 
-	for (float i = rotate; i <= 360+rotate; i += 360/num) {
-		ellipse(r1, r2, x+r1*cos(i*Convert), y+r1*sin(i*Convert) ,i);
+	for (float i = rotate; i <= 360 + rotate; i += 360 / num) {
+		ellipse(r1, r2, x + r1 * cos(i*3.14159265 / 180), y + r1 * sin(i*3.14159265 / 180), i);
 	}
 }
 
 void flower2(float r1, float r2, float x, float y, float height, float num, float rotate) {
 
 	for (float i = rotate; i <= 360 + rotate; i += 360 / num) {
-		ellipse(r1, r2, x , y , i);
+		ellipse(r1, r2, x + flowerMS, y, i);
 	}
 
 	glColor3f(255.0 / 255, 255.0 / 255, 40.0 / 255);
-	circle(r1 / 2.25, x, y, 360);
+	circle(r1 / 2.25, x + flowerMS, y, 360);
 	glLineWidth(4.0);
 	glBegin(GL_LINES);
-	glVertex2f(x, y - r1);
-	glVertex2f(x, y - r1 -height);
+	glVertex2f(x + flowerMS, y - r1);
+	glVertex2f(x , y - r1 - height);
 	glEnd();
 
 }
 
-void garden(float r1, float r2, float x1,float x2, float y, float height, float num, float rotate) {
-	
+void garden(float r1, float r2, float x1, float x2, float y, float height, float num, float rotate) {
+
 	srand(time(NULL));
 	for (int i = x1; i <= x2; i += 35) {
 		float c1 = (rand() % 255 + 1);
-		float c2 = (rand() % 255 + 1);
-		float c3 = (rand() % 255 + 1);
-		height = rand() % 30 + 2 * r1;
+		float c2 = (rand() % 230 + 1);
+		float c3 = (rand() % 230 + 1);
+		height = rand() % 25 + 2 * r1;
 		glColor3f(c1 / 255, c2 / 255, c3 / 255);
-		flower2(r1, r2, i, y + height, height, num, rotate);
+		flower2(r1, r2, i , y + height, height, num, rotate + 90);
 	}
 }
 
 
 void fense(float x1, float x2, float y, float offset) {
-	
-	
+
+
 	for (float i = x1; i <= x2; i += 9 * offset) {	//draw fense 
 		glBegin(GL_POLYGON);
 		glVertex2f(i, y);
@@ -87,44 +90,44 @@ void fense(float x1, float x2, float y, float offset) {
 		glVertex2f(i, y + 17 * offset);
 		glEnd();
 	}
-	
+
 	for (float i = x1; i <= x2; i += 7.0 * offset) {	//draw line
 		glBegin(GL_POLYGON);
 		glVertex2f(i, y + 4 * offset);
 		glVertex2f(i + 8 * offset, y + 4 * offset);
 		glVertex2f(i + 8 * offset, y + 7 * offset);
-		glVertex2f(i , y + 7 * offset);
+		glVertex2f(i, y + 7 * offset);
 		glEnd();
 
 		glBegin(GL_POLYGON);
 		glVertex2f(i, y + 11 * offset);
 		glVertex2f(i + 8 * offset, y + 11 * offset);
-		glVertex2f(i + 8 * offset , y + 14 * offset);
+		glVertex2f(i + 8 * offset, y + 14 * offset);
 		glVertex2f(i, y + 14 * offset);
 		glEnd();
 	}
 }
 
 void car(float x, float y, float offset, float c1, float c2, float c3) {
-	
+
 
 	glColor3f(0.0 / 255, 0.0 / 255, 0.0 / 255);//เงา
 	ellipse(72.5 * offset, 7.5 * offset, x, y - 45 * offset, 0);
 
 	//car structure
-	glColor3f(c1/255, c2/255, c3/255);
+	glColor3f(c1 / 255, c2 / 255, c3 / 255);
 	glBegin(GL_POLYGON);
 	glVertex2f(x - 75 * offset, y - 35 * offset);
 	glVertex2f(x + 75 * offset, y - 35 * offset);
 	glVertex2f(x + 75 * offset, y + 35 * offset);
 	glVertex2f(x - 22.5 * offset, y + 35 * offset);
 	glVertex2f(x - 32.5 * offset, y + 10 * offset);
-	glVertex2f(x - 75 * offset, y );
+	glVertex2f(x - 75 * offset, y);
 	glVertex2f(x - 75 * offset, y - 35 * offset);
 	glEnd();
 
 	//car accessory
-	glColor3f(190.0/255,190.0/255,190.0/255);//กันชนหน้า
+	glColor3f(190.0 / 255, 190.0 / 255, 190.0 / 255);//กันชนหน้า
 	glBegin(GL_POLYGON);
 	glVertex2f(x - 80 * offset, y - 35 * offset);
 	glVertex2f(x - 50 * offset, y - 35 * offset);
@@ -185,7 +188,7 @@ void car(float x, float y, float offset, float c1, float c2, float c3) {
 	glVertex2f(x - 55 * offset, y - 17.5 * offset);
 	glVertex2f(x - 62.5 * offset, y - 22.5 * offset);
 	glEnd();
-	
+
 	glColor3f(180.0 / 255, 180.0 / 255, 180.0 / 255);//ไฟหลัง
 	glBegin(GL_POLYGON);
 	glVertex2f(x + 75 * offset, y - 22.5 * offset);
@@ -244,7 +247,7 @@ void car(float x, float y, float offset, float c1, float c2, float c3) {
 	glVertex2f(x - 62.5 * offset, y - 22.5 * offset);
 	glVertex2f(x - 75 * offset, y - 22.5 * offset);
 	glEnd();
-	
+
 	glColor3f(240.0 / 255, 240.0 / 255, 240.0 / 255);//กระจกหน้า
 	glBegin(GL_POLYGON);
 	glVertex2f(x - 45 * offset, y + 8 * offset);
@@ -278,7 +281,7 @@ void car(float x, float y, float offset, float c1, float c2, float c3) {
 	glVertex2f(x - 32.5 * offset, y + 10.5 * offset);
 	glVertex2f(x - 32.5 * offset, y + 3 * offset);
 	glColor3f(180.0 / 255, 180.0 / 255, 180.0 / 255);
-	glVertex2f(x , y + 3 * offset);
+	glVertex2f(x, y + 3 * offset);
 	glVertex2f(x, y + 30 * offset);
 	glVertex2f(x * offset, y + 30 * offset);
 	glEnd();
@@ -313,7 +316,7 @@ void car(float x, float y, float offset, float c1, float c2, float c3) {
 	circle(20 * offset, x - 37.5 * offset, y - 35 * offset, 180);
 	circle(20 * offset, x + 37.5 * offset, y - 35 * offset, 180);
 
-	glColor3f(80.0/ 255, 80.0 / 255, 80.0 / 255);
+	glColor3f(80.0 / 255, 80.0 / 255, 80.0 / 255);
 	circle(17.5 * offset, x - 37.5 * offset, y - 35 * offset, 360);
 	circle(17.5 * offset, x + 37.5 * offset, y - 35 * offset, 360);
 
@@ -322,27 +325,27 @@ void car(float x, float y, float offset, float c1, float c2, float c3) {
 	circle(12.5 * offset, x + 37.5 * offset, y - 35 * offset, 360);
 
 	glColor3f(100.0 / 255, 100.0 / 255, 100.0 / 255);
-	ellipse(12.5 * offset, 2 * offset, x - 37.5 * offset, y - 35 * offset, dx1);
-	ellipse(12.5 * offset, 2 * offset, x + 37.5 * offset, y - 35 * offset, dx1);
-	ellipse(12.5 * offset, 2 * offset, x - 37.5 * offset, y - 35 * offset, dx1 + 90);
-	ellipse(12.5 * offset, 2 * offset, x + 37.5 * offset, y - 35 * offset, dx1 + 90);
+	ellipse(12.5 * offset, 2 * offset, x - 37.5 * offset, y - 35 * offset, -dx1);
+	ellipse(12.5 * offset, 2 * offset, x + 37.5 * offset, y - 35 * offset, -dx1);
+	ellipse(12.5 * offset, 2 * offset, x - 37.5 * offset, y - 35 * offset, -dx1 + 90);
+	ellipse(12.5 * offset, 2 * offset, x + 37.5 * offset, y - 35 * offset, -dx1 + 90);
 
 
 }
 
 void house(float x, float y, float offset) {
 
-	glColor3f(200.0 / 255, 200.0 / 255, 200.0/255);//บ้านเทา
+	glColor3f(200.0 / 255, 200.0 / 255, 200.0 / 255);//บ้านเทา
 	glBegin(GL_POLYGON);
 	glVertex2f(x - 50 * offset, y);
-	glVertex2f(x , y);
-	glVertex2f(x , y + 75 * offset);
-	glVertex2f(x - 50 * offset , y + 45 * offset);
+	glVertex2f(x, y);
+	glVertex2f(x, y + 75 * offset);
+	glVertex2f(x - 50 * offset, y + 45 * offset);
 	glEnd();
 	glColor3f(150.0 / 255, 150.0 / 255, 150.0 / 255);
 	glBegin(GL_POLYGON);
-	glVertex2f(x - 55 * offset , y + 40 * offset);
-	glVertex2f(x + 5 * offset , y + 75 * offset);
+	glVertex2f(x - 55 * offset, y + 40 * offset);
+	glVertex2f(x + 5 * offset, y + 75 * offset);
 	glVertex2f(x + 5 * offset, y + 78 * offset);
 	glVertex2f(x - 55 * offset, y + 43 * offset);
 	glEnd();
@@ -378,8 +381,8 @@ void house(float x, float y, float offset) {
 	glLineWidth(2.0);
 	for (int i = 0; i <= 20; i += 4) {
 		glBegin(GL_LINES);
-		glVertex2f(x ,y + (40 + i) * offset);
-		glVertex2f(x +(20 - i) * 2.5 * offset,y + (40 + i )* offset);
+		glVertex2f(x, y + (40 + i) * offset);
+		glVertex2f(x + (20 - i) * 2.5 * offset, y + (40 + i)* offset);
 		glEnd();
 	}
 	glColor3f(90.0 / 255, 20.0 / 255, 0.0 / 255);
@@ -423,7 +426,6 @@ void house(float x, float y, float offset) {
 }
 
 void draw() {
-
 	glColor3f(80.0 / 255, 80.0 / 255, 80.0 / 255);//ถนน
 	glBegin(GL_POLYGON);
 	glVertex2f(330, -170);
@@ -453,24 +455,41 @@ void draw() {
 
 	house(150, -75, 2);
 
-	//flower(20,5, 0, 0, 50, 5 , 17);
 	garden(15, 10, -325, 40, -60, 30, 6, 90);
 
-	glColor3f(240.0/ 255, 180.0 / 255, 180.0 / 255);
-	fense(-330, 40 , -75, 2);
+	glColor3f(240.0 / 255, 180.0 / 255, 180.0 / 255);
+	fense(-330, 40, -75, 2);
 	fense(255, 330, -75, 2);
-	
-	car(180, -65, 1,220.0,220.0,220.0);
+
+	car(dx1, -65, 1, 220.0, 220.0, 220.0);
+
+	if (dx1 <= -425) {
+		dx1 = 425;
+	}
+	else
+		dx1 -= 5;
+	if (flowerM == true) {
+		flowerMS--;
+		if (flowerMS< -10)
+			flowerM = false;
+	}
+	else {
+		flowerMS++;
+		if (flowerMS >= 10)
+			flowerM = true;
+	}
 
 }
+
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	draw();
-	glFlush();
+	//glFlush();
 	glutSwapBuffers(); // Swap the buffers.
 }
+
 
 void mouse(int button, int state, int x, int y)
 {
@@ -487,16 +506,15 @@ void mouse(int button, int state, int x, int y)
 		break;
 	}
 }
-
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(100, 100);
-	glutCreateWindow(argv[0]);
-	init();
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitWindowSize(1366, 768);
+	glutInitWindowPosition(300, 300);
+	glutCreateWindow("CG-HW1");
 	glutDisplayFunc(display);
+	init();
 	glutMouseFunc(mouse);
 	glutMainLoop();
 	return 0;
