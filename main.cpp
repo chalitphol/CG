@@ -5,6 +5,7 @@
 static GLfloat dx1 = 425.0, dy1 = -50.0, ds1 = 2;
 static GLfloat dx2 = 425.0, dy2 = -85.0, ds2 = 4;
 static GLfloat dx3 = 425.0, dy3 = -135.0, ds3 = 6;
+static GLfloat dxG = 425.0, dyG = 150.0, dsG = 8, doG = 0.25, doP = 0;
 static float flowerM = true;
 static float flowerMS = 0;
 
@@ -478,7 +479,122 @@ void house(float x, float y, float offset) {
 
 }
 
+void goku(float x, float y, float offset) {
+
+
+	glColor3f(255.0 / 255, 0 / 255, 0 / 255);//ตัว
+	glBegin(GL_POLYGON);
+	glVertex2f(x - 40 * offset, y );
+	glVertex2f(x - 45 * offset, y - 5 * offset);
+	glVertex2f(x + 40 * offset, y - 60 * offset);
+	glVertex2f(x + 45 * offset, y - 55 * offset);
+	glEnd();
+
+	glColor3f(245.0 / 255, 232.0 / 255, 194.0 / 255);//ตัว
+	glBegin(GL_POLYGON);
+	glVertex2f(x + 20 * offset, y - 60 * offset);
+	glVertex2f(x, y);
+	glVertex2f(x - 20 * offset, y - 60 * offset);
+	glEnd();
+
+	glColor3f(0.0 / 255, 102.0 / 255, 204.0 / 255);
+	glBegin(GL_POLYGON);
+	glVertex2f(x + 20 * offset, y - 47.5 * offset);
+	glVertex2f(x + 10 * offset, y - 18 * offset);
+	glVertex2f(x + 7.5 * offset, y - 18 * offset);
+	glVertex2f(x , y - 27.5 * offset);
+	glVertex2f(x - 7.5 * offset, y - 18 * offset);
+	glVertex2f(x - 10 * offset, y - 18 * offset);
+	glVertex2f(x - 20 * offset, y - 47.5 * offset);
+	glEnd();
+
+	glColor3f(0.0 / 255, 0.0 / 255, 0.0 / 255);//ผม
+	ellipse(20 * offset, 22 * offset, x, y + 5 *offset, 90);
+
+	glColor3f(245.0 / 255, 232.0 / 255, 194.0 / 255);//หัว
+	ellipse(20 * offset, 19 * offset, x, y, 90);
+
+	glColor3f(255.0 / 255, 255.0 / 255, 255.0 / 255);//ตา
+	ellipse(5 * offset, 5 * offset, x - 8.5 * offset, y, 90);
+	ellipse(5 * offset, 5 * offset, x + 8.5 * offset, y, 90);
+	glColor3f(0.0 / 255, 0.0 / 255, 0.0 / 255);
+	ellipse(1.5 * offset, 1 * offset, x + 4.2 * offset, y, 90);
+	ellipse(1.5 * offset, 1 * offset, x - 4.2 * offset, y, 90);
+
+	glColor3f(0.0 / 255, 0.0 / 255, 0.0 / 255);//ผม
+	glBegin(GL_POLYGON);
+	glVertex2f(x , y + 20 * offset);
+	glVertex2f(x - 20 * offset, y + 45 * offset);
+	glVertex2f(x - 15 * offset, y + 15 * offset);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glVertex2f(x - 15 * offset, y + 18 * offset);
+	glVertex2f(x - 45 * offset, y + 32.5 * offset);
+	glVertex2f(x - 20 * offset, y + 5 * offset);
+	glEnd();	
+	glBegin(GL_POLYGON);
+	glVertex2f(x - 20 * offset, y + 7.5 * offset);
+	glVertex2f(x - 50 * offset, y + 10 * offset);
+	glVertex2f(x - 18 * offset, y - 5 *offset );
+	glEnd();
+	glBegin(GL_POLYGON);
+	glVertex2f(x + 15 * offset, y + 18 * offset);
+	glVertex2f(x + 35 * offset, y + 25 * offset);
+	glVertex2f(x + 18 * offset, y + 5 * offset);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glVertex2f(x + 20 * offset, y + 10 * offset);
+	glVertex2f(x + 45 * offset, y + 10 * offset);
+	glVertex2f(x + 18 * offset, y - 5 * offset);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glVertex2f(x - 2 * offset, y + 20 * offset);
+	glVertex2f(x - 4 * offset, y + 8 * offset);
+	glVertex2f(x - 15 * offset, y + 20 * offset);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glVertex2f(x - 10 * offset, y + 18 * offset);
+	glVertex2f(x - 10 * offset, y + 3 * offset);
+	glVertex2f(x - 25 * offset, y + 15 * offset);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glVertex2f(x + 3 * offset, y + 20 * offset);
+	glVertex2f(x + 4 * offset, y + 8 * offset);
+	glVertex2f(x + 15 * offset, y + 20 * offset);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glVertex2f(x + 10 * offset, y + 18 * offset);
+	glVertex2f(x + 10 * offset, y + 3 * offset);
+	glVertex2f(x + 25 * offset, y + 15 * offset);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glVertex2f(x + 5 * offset, y + 20 * offset);
+	glVertex2f(x , y + 15 * offset);
+	glVertex2f(x - 5  * offset, y + 20 * offset);
+	glEnd();
+	glColor3f(245.0 / 255, 232.0 / 255, 194.0 / 255);//หู
+	ellipse(6* offset, 4 * offset, x - 19 * offset, y, 90);
+	ellipse(6 *offset, 4 * offset, x + 19 * offset, y, 90);
+
+	glColor3f(255.0 / 255, 102.0 / 255, 102.0 / 255);//ปาก
+	ellipse(3.5 * offset, 6 * offset, x , y - 12.5 * offset, 90);
+
+	glColor3f(255.0 / 255, 102.0 / 255, 102.0 / 255);//ปาก
+	ellipse(3.5 * offset, 6 * offset, x, y - 12.5 * offset, 90);
+
+	glColor3f(255.0 / 255, 225.0 / 255, 59.0 / 255);
+	ellipse(20 * offset, 20 * offset, x + 32.5 * offset, y - 70 * offset, 90);
+	glColor3f(245.0 / 255, 215.0 / 255, 59.0 / 255);
+	ellipse(25 * offset, 27.5 * offset, x, y - 70 * offset, 90);
+	glColor3f(235.0 / 255, 205.0 / 255, 59.0 / 255);
+	ellipse(25 * offset, 25 * offset, x - 25 * offset, y - 70 * offset, 90);
+	ellipse(20 * offset, 20 * offset, x - 30 * offset, y - 70 * offset, 90);
+
+
+}
+
 void draw() {
+	srand(time(NULL));
 	glColor3f(road[0][0] - 20.0 * period / 255, road[0][1] - 20.0 * period / 255, road[0][2] - 20.0 * period / 255);//ถนน
 	glBegin(GL_POLYGON);
 	glVertex2f(330, -170);
@@ -574,6 +690,33 @@ void draw() {
 	else
 		dx3 -= ds3;
 
+	goku(dxG, dyG, doG);
+	if (dxG <= -425) {
+		dxG = 425;
+		dyG = rand() % 25 + 135;
+		dsG = 4 + (rand() % 2 + 1);
+		doG = 0.25 * (rand() % 4 + 1);
+		doP = rand() % 4;
+		if (doP == 1) {
+			doG = -doG;
+		}
+	}
+	else {
+		if (doP == 0) {
+			dyG -= 2 *sin(dxG*3.146 / 180);
+			dxG -= dsG;
+		}
+		else if (doP == 1) {
+			dxG -= dsG;
+		}
+		else if (doP == 2) {
+			dyG -= 4 * cos(dxG*3.146 / 180);
+			dxG -= dsG;
+		}
+		else {
+			dxG -= dsG;
+		}
+	}
 
 	if (flowerM == true) {
 		flowerMS-= 0.5;
@@ -603,6 +746,7 @@ void draw() {
 			light = 0;
 		}
 	}
+
 }
 
 
